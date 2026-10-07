@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — CryptoVault</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-title">Crypto<span class="accent">Vault</span></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Encrypt / Decrypt</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <!-- auth nav items injected by auth.js -->
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">&#9776;</button>
+  </nav>
+
+  <!-- HERO -->
+  <header class="compare-hero">
+    <div class="hero-badge">MDM Minor — CyberSecurity Project</div>
+    <h1>About CryptoVault</h1>
+    <p>A multi-algorithm encryption and decryption platform built to demonstrate, compare, and make cryptographic techniques accessible for learning and practical use.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- ── Overview cards ── -->
+    <section style="margin-top: 48px;">
+      <h2 class="section-title">Project Overview</h2>
+      <p class="section-sub">What CryptoVault is, what it does, and why it was built.</p>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card-icon">🎯</div>
+          <h3>Problem Statement</h3>
+          <p>Sensitive information is often transmitted and stored as plain text, making it vulnerable to unauthorized access and cyberattacks. Many users find encryption techniques difficult to understand and use. CryptoVault provides a simple, unified platform to address both of these challenges.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">💡</div>
+          <h3>What Makes It Novel</h3>
+          <p>Unlike tools that focus on a single algorithm, CryptoVault combines multiple classical and modern cryptographic techniques into one web-based platform — allowing users to encrypt, decrypt, and directly compare algorithms based on their security, output, and performance.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🛡️</div>
+          <h3>Supported Algorithms</h3>
+          <p>Classical: Caesar Cipher, ROT13, Atbash, Vigenère.<br/>Encoding: Base64.<br/>Modern: AES-256-CBC (symmetric encryption), SHA-256 (cryptographic hash). More algorithms can be added as the project evolves.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">⚙️</div>
+          <h3>Tech Stack</h3>
+          <p><strong>Frontend:</strong> HTML5, CSS3, JavaScript (ES6+) — no frameworks, no dependencies.<br/><strong>Backend:</strong> PHP 8 — handles AES-256-CBC and SHA hashing via OpenSSL.<br/><strong>Tools:</strong> VS Code, Git/GitHub.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">📊</div>
+          <h3>Algorithm Comparison</h3>
+          <p>The Compare page runs all 7 algorithms on the same input simultaneously, displaying encrypted output, output length, and execution time in a table and visual bar charts — making it easy to see the practical differences between techniques.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔒</div>
+          <h3>Ethical Scope</h3>
+          <p>CryptoVault is a controlled, educational platform. It does not involve penetration testing, vulnerability assessment, or the collection of personal data. All operations run locally in the user's browser or on their own PHP server.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Research Objectives ── -->
+    <section>
+      <h2 class="section-title">Research Objectives</h2>
+      <p class="section-sub">Five clear, specific goals this project aims to achieve.</p>
+
+      <ul class="objectives-list">
+        <li>Develop a user-friendly platform that encrypts and decrypts text using multiple cryptographic algorithms within a single interface.</li>
+        <li>Implement and compare different encryption techniques based on security level, processing time, and output characteristics.</li>
+        <li>Ensure that encrypted data can be correctly decrypted only through the appropriate algorithm and key or method.</li>
+        <li>Provide users with a simple interface for selecting an algorithm, entering text, and generating encrypted or decrypted results instantly.</li>
+        <li>Demonstrate the practical use of cryptographic techniques for protecting sensitive information from unauthorized access.</li>
+      </ul>
+    </section>
+
+    <!-- ── Methodology ── -->
+    <section>
+      <h2 class="section-title">Methodology</h2>
+      <p class="section-sub">The development process followed a structured pipeline from problem identification to deployment.</p>
+
+      <div class="methodology-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-label">Problem Identification</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-label">Literature Survey on Cryptography</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-label">Requirement Analysis</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-label">UI / UX Design</div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-label">Algorithm Implementation</div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-label">Integration into Platform</div>
+        </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-label">Testing &amp; Validation</div>
+        </div>
+        <div class="step">
+          <div class="step-num">8</div>
+          <div class="step-label">Security &amp; Performance Evaluation</div>
+        </div>
+        <div class="step">
+          <div class="step-num">9</div>
+          <div class="step-label">Deployment &amp; Documentation</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Expected Outcome ── -->
+    <section>
+      <h2 class="section-title">Expected Outcome</h2>
+      <p class="section-sub">What this project delivers.</p>
+      <div class="info-box" style="margin-top:0;">
+        <h3 class="info-box-title">Functional Prototype of CryptoVault</h3>
+        <div class="info-box-body">
+          <p>A <strong>user-friendly, web-based platform</strong> that provides secure text encryption and decryption using multiple cryptographic algorithms. Users can enter text, select an algorithm, generate encrypted output, and decrypt it when required.</p>
+          <p>The platform <strong>demonstrates and compares</strong> the basic working and security characteristics of different encryption techniques — providing a practical solution for secure information handling and cryptography education.</p>
+          <p>The system validates that encrypted data can only be recovered through the correct algorithm and key, reinforcing fundamental principles of confidentiality and access control.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How to Run ── -->
+    <section>
+      <h2 class="section-title">How to Run</h2>
+      <p class="section-sub">Two options depending on whether you need AES and SHA (PHP required) or just classical algorithms (browser only).</p>
+
+      <div class="about-grid" style="margin-top:0;">
+        <div class="about-card" style="border-left:3px solid var(--accent);">
+          <div class="about-card-icon">🌐</div>
+          <h3>Option A — Static (Browser Only)</h3>
+          <p>Open <code style="font-family:var(--font-mono);color:var(--accent);">index.html</code> directly in any modern browser. Caesar, ROT13, Atbash, Vigenère, and Base64 all work without a server. AES and SHA will show a server-not-available notice.</p>
+        </div>
+        <div class="about-card" style="border-left:3px solid var(--accent2);">
+          <div class="about-card-icon">🖥️</div>
+          <h3>Option B — PHP Server (Full Features)</h3>
+          <p>Serve the project through a local PHP server:</p>
+          <ul style="margin-top:10px; padding-left:18px; color:var(--text-secondary); font-size:13px; line-height:1.8;">
+            <li><strong>XAMPP / WAMP</strong> — place folder in <code style="color:var(--accent)">htdocs/</code></li>
+            <li><strong>PHP built-in server</strong> — run <code style="color:var(--accent)">php -S localhost:8000</code> in the project folder</li>
+          </ul>
+          <p style="margin-top:10px;">All 7 algorithms including AES-256 and SHA-256 will be fully functional.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Team ── -->
+    <section>
+      <h2 class="section-title">Team MgmDevs</h2>
+      <p class="section-sub">MDM Minor CyberSecurity — Group submission dated 10 August 2026.</p>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">KJ</div>
+          <h3>Kashish Jain</h3>
+          <div class="roll">Roll: 202401103708</div>
+          <div class="dept">Department: CSE 3</div>
+          <div class="email">jainkashish272@gmail.com</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">MK</div>
+          <h3>Muktesh Korde</h3>
+          <div class="roll">Roll: 202401103702</div>
+          <div class="dept">Department: CSE 3</div>
+          <div class="email">mukteshkorde240@gmail.com</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Disclaimer ── -->
+    <section style="margin-bottom: 56px;">
+      <div class="info-box" style="border-left-color: var(--orange);">
+        <h3 class="info-box-title" style="color:var(--orange);">⚠ Educational Disclaimer</h3>
+        <div class="info-box-body">
+          <p>CryptoVault is built <strong>strictly for educational purposes</strong> as part of an academic minor project in Cybersecurity. The classical ciphers (Caesar, ROT13, Atbash, Vigenère) are historically significant but <strong>not secure</strong> for protecting real sensitive data.</p>
+          <p>For production security needs, always use vetted, up-to-date cryptographic libraries and consult current security standards (e.g. NIST guidelines). Do not use this platform for encrypting genuinely sensitive information in a production environment.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">🔐 Crypto<span class="accent">Vault</span></div>
+      <p class="footer-desc">MDM Minor CyberSecurity Project &mdash; Team MgmDevs</p>
+      <p class="footer-team">Kashish Jain (202401103708) &nbsp;|&nbsp; Muktesh Korde (202401103702)</p>
+      <p class="footer-note">Built with JavaScript &amp; PHP &nbsp;·&nbsp; For educational purposes only</p>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CV_Auth.initNav();
+      document.getElementById('navToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

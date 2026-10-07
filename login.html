@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — CryptoVault</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-title">Crypto<span class="accent">Vault</span></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Encrypt / Decrypt</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="login.html" class="active">Login</a></li>
+      <li><a href="signup.html" class="nav-cta">Sign Up</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">&#9776;</button>
+  </nav>
+
+  <!-- AUTH WRAPPER -->
+  <div class="auth-page">
+
+    <!-- Left panel — branding -->
+    <div class="auth-left">
+      <div class="auth-left-inner">
+        <div class="auth-brand-icon">🔐</div>
+        <h1 class="auth-brand-title">Crypto<span class="accent">Vault</span></h1>
+        <p class="auth-brand-sub">Multi-Algorithm Encryption Platform</p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <span class="af-icon">🛡️</span>
+            <div>
+              <strong>Secure Sessions</strong>
+              <p>Token-based authentication with 7-day sessions</p>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <span class="af-icon">📜</span>
+            <div>
+              <strong>Personal History</strong>
+              <p>All your operations saved and accessible anytime</p>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <span class="af-icon">🔑</span>
+            <div>
+              <strong>7 Algorithms</strong>
+              <p>Caesar, ROT13, Atbash, Vigenère, Base64, AES-256, SHA-256</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-left-bg"></div>
+    </div>
+
+    <!-- Right panel — form -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Welcome back</h2>
+          <p>Sign in to your CryptoVault account</p>
+        </div>
+
+        <!-- Alert box -->
+        <div class="auth-alert hidden" id="loginAlert"></div>
+
+        <form id="loginForm" novalidate autocomplete="off">
+
+          <div class="form-group">
+            <label for="identifier">Email or Mobile Number</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input
+                type="text"
+                id="identifier"
+                name="identifier"
+                placeholder="you@example.com or 9876543210"
+                class="form-input"
+                autocomplete="username"
+                required
+              />
+            </div>
+            <span class="field-error" id="identifierErr"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">
+              Password
+              <a href="#" class="label-link" onclick="forgotPassword(event)">Forgot password?</a>
+            </label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="Enter your password"
+                class="form-input"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="eye-btn" onclick="togglePwd('loginPassword', this)" title="Show/Hide">👁</button>
+            </div>
+            <span class="field-error" id="passwordErr"></span>
+          </div>
+
+          <div class="form-check-row">
+            <label class="form-check">
+              <input type="checkbox" id="rememberMe" />
+              <span class="check-box"></span>
+              Remember me
+            </label>
+          </div>
+
+          <button type="submit" class="btn-auth" id="loginBtn">
+            <span id="loginBtnText">Sign In</span>
+            <span class="btn-spinner hidden" id="loginSpinner">⏳</span>
+          </button>
+
+        </form>
+
+        <div class="auth-divider"><span>or</span></div>
+
+        <p class="auth-switch">
+          Don't have an account?
+          <a href="signup.html">Create one free</a>
+        </p>
+
+        <p class="auth-demo-hint">
+          <span class="tag tag-modern" style="font-size:11px;">Demo</span>
+          &nbsp;No account? <a href="signup.html">Register in seconds</a> — no email verification required.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (CV_Auth.getToken()) {
+      CV_Auth.checkSession().then(ok => { if (ok) window.location.href = 'dashboard.html'; });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const identifier = document.getElementById('identifier').value.trim();
+      const password   = document.getElementById('loginPassword').value;
+      let valid = true;
+
+      if (!identifier) { showFieldErr('identifierErr', 'Email or mobile is required.'); valid = false; }
+      if (!password)   { showFieldErr('passwordErr', 'Password is required.'); valid = false; }
+      if (!valid) return;
+
+      setLoading(true);
+      const res = await CV_Auth.login(identifier, password);
+      setLoading(false);
+
+      if (res.success) {
+        showAlert('✓ Login successful! Redirecting…', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+      } else {
+        showAlert(res.error || 'Login failed.', 'error');
+      }
+    });
+
+    function forgotPassword(e) {
+      e.preventDefault();
+      showAlert('Password reset is not available in demo mode. Please register a new account or contact support.', 'warning');
+    }
+
+    function togglePwd(id, btn) {
+      const f = document.getElementById(id);
+      f.type = f.type === 'password' ? 'text' : 'password';
+      btn.textContent = f.type === 'password' ? '👁' : '🙈';
+    }
+
+    function setLoading(on) {
+      document.getElementById('loginBtn').disabled = on;
+      document.getElementById('loginBtnText').classList.toggle('hidden', on);
+      document.getElementById('loginSpinner').classList.toggle('hidden', !on);
+    }
+
+    function showAlert(msg, type = 'error') {
+      const el = document.getElementById('loginAlert');
+      el.textContent = msg;
+      el.className = `auth-alert auth-alert-${type}`;
+    }
+
+    function showFieldErr(id, msg) {
+      document.getElementById(id).textContent = msg;
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+      document.getElementById('loginAlert').className = 'auth-alert hidden';
+    }
+
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

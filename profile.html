@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — CryptoVault</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="dash-body">
+
+  <!-- TOP NAV -->
+  <nav class="navbar dash-navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-title">Crypto<span class="accent">Vault</span></span>
+    </a>
+    <div class="dash-nav-right">
+      <a href="index.html" class="dash-nav-link">🔒 Encrypt</a>
+      <a href="dashboard.html" class="dash-nav-link">🏠 Dashboard</a>
+      <div class="dash-user-pill" id="dashUserPill">
+        <div class="dup-avatar" id="dupAvatar">??</div>
+        <span class="dup-name" id="dupName">Loading…</span>
+        <div class="dup-menu" id="dupMenu">
+          <a href="profile.html">👤 Profile</a>
+          <a href="dashboard.html">🏠 Dashboard</a>
+          <a href="index.html">🔒 Encrypt</a>
+          <hr class="dup-sep" />
+          <a href="#" onclick="doLogout(event)">🚪 Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dash-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar" id="sidebarAvatar">??</div>
+        <div class="sidebar-name"  id="sidebarName">Loading…</div>
+        <div class="sidebar-email" id="sidebarEmail">—</div>
+        <div class="sidebar-badge" id="sidebarBadge"></div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link"><span class="sl-icon">🏠</span> Dashboard</a>
+        <a href="index.html"     class="sidebar-link"><span class="sl-icon">🔒</span> Encrypt / Decrypt</a>
+        <a href="compare.html"   class="sidebar-link"><span class="sl-icon">📊</span> Compare</a>
+        <a href="profile.html"   class="sidebar-link active"><span class="sl-icon">👤</span> My Profile</a>
+        <a href="about.html"     class="sidebar-link"><span class="sl-icon">ℹ️</span> About</a>
+        <div class="sidebar-sep"></div>
+        <a href="#" onclick="doLogout(event)" class="sidebar-link sidebar-logout">
+          <span class="sl-icon">🚪</span> Logout
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="dash-main">
+
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">My Profile</h1>
+          <p class="dash-subtitle">Manage your account information, password, and identity verification.</p>
+        </div>
+        <a href="dashboard.html" class="btn-secondary" style="text-decoration:none;padding:10px 20px;">← Dashboard</a>
+      </div>
+
+      <!-- Global alert -->
+      <div class="auth-alert hidden" id="profileAlert" style="margin-bottom:20px;"></div>
+
+      <div class="profile-grid">
+
+        <!-- ── Profile Info Card ── -->
+        <section class="dash-section">
+          <h2>Account Information</h2>
+
+          <div class="profile-avatar-row">
+            <div class="profile-big-avatar" id="profileBigAvatar">??</div>
+            <div>
+              <div class="profile-avatar-name" id="profileAvatarName">—</div>
+              <div class="profile-avatar-since" id="profileAvatarSince">—</div>
+              <div id="profileVerifBadge"></div>
+            </div>
+          </div>
+
+          <form id="profileForm" novalidate>
+            <div class="auth-alert hidden" id="profileFormAlert"></div>
+
+            <div class="form-group">
+              <label for="pfFullName">Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" id="pfFullName" class="form-input" placeholder="Your full name" required />
+              </div>
+              <span class="field-error" id="pfFullNameErr"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrap">
+                  <span class="input-icon">✉️</span>
+                  <input type="email" id="pfEmail" class="form-input" disabled style="opacity:.6;cursor:not-allowed;" />
+                </div>
+                <span class="field-hint">Email cannot be changed.</span>
+              </div>
+              <div class="form-group">
+                <label for="pfMobile">Mobile Number</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📱</span>
+                  <input type="tel" id="pfMobile" class="form-input" maxlength="10" placeholder="10-digit mobile" required />
+                </div>
+                <span class="field-error" id="pfMobileErr"></span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-auth" id="pfSaveBtn">
+              <span id="pfSaveBtnText">Save Changes</span>
+              <span class="btn-spinner hidden" id="pfSaveSpinner">⏳</span>
+            </button>
+          </form>
+        </section>
+
+        <!-- ── Change Password ── -->
+        <section class="dash-section">
+          <h2>Change Password</h2>
+
+          <form id="passwordForm" novalidate>
+            <div class="auth-alert hidden" id="pwdFormAlert"></div>
+
+            <div class="form-group">
+              <label for="currentPwd">Current Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="currentPwd" class="form-input" placeholder="Your current password" />
+                <button type="button" class="eye-btn" onclick="togglePwd('currentPwd',this)">👁</button>
+              </div>
+              <span class="field-error" id="currentPwdErr"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="newPwd">New Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔑</span>
+                <input type="password" id="newPwd" class="form-input" placeholder="Min 8 chars, 1 uppercase, 1 digit" />
+                <button type="button" class="eye-btn" onclick="togglePwd('newPwd',this)">👁</button>
+              </div>
+              <span class="field-error" id="newPwdErr"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPwd">Confirm New Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔑</span>
+                <input type="password" id="confirmPwd" class="form-input" placeholder="Re-enter new password" />
+                <button type="button" class="eye-btn" onclick="togglePwd('confirmPwd',this)">👁</button>
+              </div>
+              <span class="field-error" id="confirmPwdErr"></span>
+            </div>
+
+            <button type="submit" class="btn-auth" id="pwdSaveBtn">
+              <span id="pwdSaveBtnText">Update Password</span>
+              <span class="btn-spinner hidden" id="pwdSaveSpinner">⏳</span>
+            </button>
+          </form>
+        </section>
+
+        <!-- ── Identity Verification ── -->
+        <section class="dash-section" id="idVerifSection" style="grid-column:1/-1;">
+          <h2>Identity Verification</h2>
+
+          <div id="idVerifStatus">
+            <div class="dash-loading">Loading verification status…</div>
+          </div>
+
+          <!-- Form (shown when not yet verified) -->
+          <div id="idVerifForm" style="display:none;margin-top:20px;">
+            <div class="id-verify-intro" style="margin-bottom:20px;">
+              <p>Submit your government-issued ID to receive a <span class="tag tag-high" style="font-size:11px;">✓ Verified</span> badge on your profile.</p>
+              <p class="id-disclaimer">⚠ <strong>Demo mode:</strong> Your ID number is immediately masked. No government API is called. This simulates the verification workflow.</p>
+            </div>
+
+            <form id="idForm" novalidate>
+              <div class="auth-alert hidden" id="idFormAlert"></div>
+
+              <div class="form-group">
+                <label>ID Proof Type</label>
+                <div class="id-type-selector">
+                  <label class="id-type-card selected" id="idTypeAadhaar2">
+                    <input type="radio" name="idType2" value="aadhaar" checked />
+                    <div class="id-type-body">
+                      <span class="id-type-icon">🪪</span>
+                      <strong>Aadhaar Card</strong>
+                      <small>12-digit number</small>
+                    </div>
+                  </label>
+                  <label class="id-type-card" id="idTypePan2">
+                    <input type="radio" name="idType2" value="pan" />
+                    <div class="id-type-body">
+                      <span class="id-type-icon">💳</span>
+                      <strong>PAN Card</strong>
+                      <small>ABCDE1234F format</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="idNum2" id="idNumLabel2">Aadhaar Number</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">🔢</span>
+                    <input type="text" id="idNum2" class="form-input" placeholder="12-digit Aadhaar" maxlength="12" />
+                  </div>
+                  <span class="field-hint">Will be masked before storage.</span>
+                  <span class="field-error" id="idNum2Err"></span>
+                </div>
+                <div class="form-group">
+                  <label for="idNameVal">Name on ID</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="idNameVal" class="form-input" placeholder="Name as printed on ID" />
+                  </div>
+                  <span class="field-error" id="idNameValErr"></span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-auth" id="idSubmitBtn" style="max-width:280px;">
+                <span id="idSubmitBtnText">Submit for Verification</span>
+                <span class="btn-spinner hidden" id="idSubmitSpinner">⏳</span>
+              </button>
+            </form>
+          </div>
+
+        </section>
+
+      </div><!-- end profile-grid -->
+
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const ok = await CV_Auth.checkSession();
+      if (!ok) { window.location.href = 'login.html'; return; }
+      currentUser = CV_Auth.user;
+      populateProfile();
+      loadIDStatus();
+    });
+
+    function populateProfile() {
+      const u = currentUser;
+      const init = u.avatar_initials || '??';
+      document.getElementById('dupAvatar').textContent         = init;
+      document.getElementById('dupName').textContent           = u.full_name;
+      document.getElementById('sidebarAvatar').textContent     = init;
+      document.getElementById('sidebarName').textContent       = u.full_name;
+      document.getElementById('sidebarEmail').textContent      = u.email;
+      document.getElementById('profileBigAvatar').textContent  = init;
+      document.getElementById('profileAvatarName').textContent = u.full_name;
+      document.getElementById('profileAvatarSince').textContent = 'Member since ' + fmtDate(u.created_at);
+      document.getElementById('pfFullName').value = u.full_name;
+      document.getElementById('pfEmail').value    = u.email;
+      document.getElementById('pfMobile').value   = u.mobile;
+
+      // Sidebar badge
+      const idv = u.id_verification;
+      const sb = document.getElementById('sidebarBadge');
+      const pb = document.getElementById('profileVerifBadge');
+      if (idv && idv.status === 'verified') {
+        sb.innerHTML = '<span class="tag tag-high" style="font-size:10px;">✓ Verified</span>';
+        pb.innerHTML = '<span class="tag tag-high">✓ ID Verified</span>';
+      } else if (idv && idv.status === 'pending') {
+        sb.innerHTML = '<span class="tag tag-medium" style="font-size:10px;">⏳ Pending</span>';
+        pb.innerHTML = '<span class="tag tag-medium">⏳ Verification Pending</span>';
+      } else {
+        sb.innerHTML = '<span class="tag tag-none" style="font-size:10px;">Unverified</span>';
+        pb.innerHTML = '<span class="tag tag-low">Not Verified</span>';
+      }
+    }
+
+    /* ── Profile update ── */
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearFormErrors('profileForm');
+      const fullName = document.getElementById('pfFullName').value.trim();
+      const mobile   = document.getElementById('pfMobile').value.trim();
+      let valid = true;
+      if (fullName.length < 2) { showFErr('pfFullNameErr', 'Minimum 2 characters.'); valid = false; }
+      if (!/^[6-9]\d{9}$/.test(mobile)) { showFErr('pfMobileErr', 'Valid 10-digit mobile required.'); valid = false; }
+      if (!valid) return;
+      setFormLoading('pfSaveBtn','pfSaveBtnText','pfSaveSpinner', true);
+      const res = await CV_Auth.apiPost('php/auth.php', { action:'profile_update', full_name:fullName, mobile });
+      setFormLoading('pfSaveBtn','pfSaveBtnText','pfSaveSpinner', false);
+      if (res.success) {
+        CV_Auth.saveUser(res.user);
+        currentUser = res.user;
+        populateProfile();
+        showFormAlert('profileFormAlert', '✓ Profile updated successfully.', 'success');
+      } else {
+        showFormAlert('profileFormAlert', res.error || 'Update failed.', 'error');
+      }
+    });
+
+    /* ── Password change ── */
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearFormErrors('passwordForm');
+      const cur  = document.getElementById('currentPwd').value;
+      const np   = document.getElementById('newPwd').value;
+      const conf = document.getElementById('confirmPwd').value;
+      let valid = true;
+      if (!cur)          { showFErr('currentPwdErr','Current password required.'); valid = false; }
+      if (np.length < 8) { showFErr('newPwdErr','Minimum 8 characters.'); valid = false; }
+      else if (!/[A-Z]/.test(np)) { showFErr('newPwdErr','Must contain uppercase.'); valid = false; }
+      else if (!/\d/.test(np))    { showFErr('newPwdErr','Must contain a digit.'); valid = false; }
+      if (np !== conf)   { showFErr('confirmPwdErr','Passwords do not match.'); valid = false; }
+      if (!valid) return;
+      setFormLoading('pwdSaveBtn','pwdSaveBtnText','pwdSaveSpinner', true);
+      const res = await CV_Auth.apiPost('php/auth.php', {
+        action:'password_change', current_password:cur, new_password:np, confirm_password:conf
+      });
+      setFormLoading('pwdSaveBtn','pwdSaveBtnText','pwdSaveSpinner', false);
+      if (res.success) {
+        document.getElementById('passwordForm').reset();
+        showFormAlert('pwdFormAlert', '✓ Password changed successfully.', 'success');
+      } else {
+        showFormAlert('pwdFormAlert', res.error || 'Failed.', 'error');
+      }
+    });
+
+    /* ── ID Verification status load ── */
+    async function loadIDStatus() {
+      const res = await CV_Auth.apiPost('php/auth.php', { action:'get_id_status' });
+      const el  = document.getElementById('idVerifStatus');
+      const formEl = document.getElementById('idVerifForm');
+
+      if (!res.success || !res.verification) {
+        el.innerHTML = `<div class="idv-none">
+          <span class="tag tag-none">Not Submitted</span>
+          <p style="margin-top:8px;color:var(--text-secondary);font-size:14px;">No ID has been submitted yet. Submit below to get verified.</p>
+        </div>`;
+        formEl.style.display = 'block';
+        return;
+      }
+
+      const v = res.verification;
+      const statusTag = {
+        verified: '<span class="tag tag-high">✓ Verified</span>',
+        pending:  '<span class="tag tag-medium">⏳ Pending Review</span>',
+        rejected: '<span class="tag tag-low">✗ Rejected</span>',
+      }[v.status] || '';
+
+      el.innerHTML = `
+        <div class="idv-status-card">
+          <div class="idv-sc-header">
+            ${statusTag}
+            <span class="idv-type">${v.id_type === 'aadhaar' ? '🪪 Aadhaar Card' : '💳 PAN Card'}</span>
+          </div>
+          <table class="modal-table" style="margin-top:12px;">
+            <tr><th>Masked Number</th><td style="font-family:var(--font-mono);color:var(--accent)">${v.id_number}</td></tr>
+            <tr><th>Name on ID</th><td>${v.id_name}</td></tr>
+            <tr><th>Submitted</th><td>${fmtDate(v.submitted_at)}</td></tr>
+            ${v.reviewed_at ? `<tr><th>Reviewed</th><td>${fmtDate(v.reviewed_at)}</td></tr>` : ''}
+            ${v.notes ? `<tr><th>Notes</th><td style="color:var(--text-secondary)">${v.notes}</td></tr>` : ''}
+          </table>
+        </div>`;
+
+      if (v.status === 'rejected') {
+        el.innerHTML += `<p style="color:var(--orange);font-size:13px;margin-top:10px;">Your submission was rejected. You may submit a new one below.</p>`;
+        formEl.style.display = 'block';
+      }
+    }
+
+    /* ── ID submission ── */
+    document.querySelectorAll('input[name="idType2"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const isA = r.value === 'aadhaar';
+        document.getElementById('idNumLabel2').textContent = isA ? 'Aadhaar Number' : 'PAN Number';
+        document.getElementById('idNum2').placeholder = isA ? '12-digit Aadhaar' : 'e.g. ABCDE1234F';
+        document.getElementById('idNum2').maxLength   = isA ? 12 : 10;
+        document.getElementById('idNum2').value = '';
+        document.getElementById('idTypeAadhaar2').classList.toggle('selected', isA);
+        document.getElementById('idTypePan2').classList.toggle('selected', !isA);
+      });
+    });
+
+    document.getElementById('idForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const idType = document.querySelector('input[name="idType2"]:checked').value;
+      const idNum  = document.getElementById('idNum2').value.trim();
+      const idName = document.getElementById('idNameVal').value.trim();
+      let valid = true;
+      if (idType === 'aadhaar' && !/^\d{12}$/.test(idNum))
+        { showFErr('idNum2Err','Aadhaar must be 12 digits.'); valid = false; }
+      if (idType === 'pan' && !/^[A-Za-z]{5}[0-9]{4}[A-Za-z]$/.test(idNum))
+        { showFErr('idNum2Err','PAN format: ABCDE1234F'); valid = false; }
+      if (idName.length < 2) { showFErr('idNameValErr','Name required.'); valid = false; }
+      if (!valid) return;
+      setFormLoading('idSubmitBtn','idSubmitBtnText','idSubmitSpinner',true);
+      const res = await CV_Auth.submitID(idType, idNum.toUpperCase(), idName);
+      setFormLoading('idSubmitBtn','idSubmitBtnText','idSubmitSpinner',false);
+      if (res.success) {
+        showFormAlert('idFormAlert','✓ ID verified successfully (demo mode).','success');
+        document.getElementById('idVerifForm').style.display = 'none';
+        // Refresh user + status
+        await CV_Auth.checkSession();
+        currentUser = CV_Auth.user;
+        populateProfile();
+        loadIDStatus();
+      } else {
+        showFormAlert('idFormAlert', res.error || 'Submission failed.','error');
+      }
+    });
+
+    /* ── Logout ── */
+    async function doLogout(e) {
+      if (e) e.preventDefault();
+      await CV_Auth.logout();
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('dashUserPill').addEventListener('click', (e) => {
+      document.getElementById('dupMenu').classList.toggle('open');
+      e.stopPropagation();
+    });
+    document.addEventListener('click', () => document.getElementById('dupMenu').classList.remove('open'));
+
+    /* ── Helpers ── */
+    function togglePwd(id, btn) {
+      const f = document.getElementById(id);
+      f.type = f.type === 'password' ? 'text' : 'password';
+      btn.textContent = f.type === 'password' ? '👁' : '🙈';
+    }
+    function fmtDate(s) {
+      if (!s) return '—';
+      const d = new Date(s.replace(' ','T')+'Z');
+      return d.toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    }
+    function showFErr(id, msg) { document.getElementById(id).textContent = msg; }
+    function clearFormErrors(formId) {
+      document.getElementById(formId).querySelectorAll('.field-error').forEach(e => e.textContent = '');
+    }
+    function setFormLoading(btnId, textId, spinnerId, on) {
+      document.getElementById(btnId).disabled = on;
+      document.getElementById(textId).classList.toggle('hidden', on);
+      document.getElementById(spinnerId).classList.toggle('hidden', !on);
+    }
+    function showFormAlert(id, msg, type) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.className = `auth-alert auth-alert-${type}`;
+    }
+  </script>
+</body>
+</html>

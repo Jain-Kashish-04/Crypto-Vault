@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — CryptoVault</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-title">Crypto<span class="accent">Vault</span></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Encrypt / Decrypt</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html" class="nav-cta active">Sign Up</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">&#9776;</button>
+  </nav>
+
+  <!-- AUTH WRAPPER — signup is wider, single column -->
+  <div class="auth-page auth-page-wide">
+
+    <!-- Left panel -->
+    <div class="auth-left">
+      <div class="auth-left-inner">
+        <div class="auth-brand-icon">🔐</div>
+        <h1 class="auth-brand-title">Crypto<span class="accent">Vault</span></h1>
+        <p class="auth-brand-sub">Create your free account</p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <span class="af-icon">🆓</span>
+            <div><strong>Free Forever</strong><p>No credit card required</p></div>
+          </div>
+          <div class="auth-feature">
+            <span class="af-icon">📊</span>
+            <div><strong>Full History</strong><p>Every operation saved to your account</p></div>
+          </div>
+          <div class="auth-feature">
+            <span class="af-icon">🪪</span>
+            <div><strong>Identity Verified</strong><p>Submit Aadhaar or PAN for verification badge</p></div>
+          </div>
+          <div class="auth-feature">
+            <span class="af-icon">🔐</span>
+            <div><strong>Secure &amp; Private</strong><p>Your data stays on your server</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-left-bg"></div>
+    </div>
+
+    <!-- Right panel — form -->
+    <div class="auth-right">
+      <div class="auth-card auth-card-signup">
+
+        <div class="auth-card-header">
+          <h2>Create Account</h2>
+          <p>Join CryptoVault — it only takes a minute</p>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="signup-steps">
+          <div class="signup-step active" id="step1ind">
+            <div class="ss-num">1</div>
+            <div class="ss-label">Account Info</div>
+          </div>
+          <div class="ss-connector"></div>
+          <div class="signup-step" id="step2ind">
+            <div class="ss-num">2</div>
+            <div class="ss-label">Identity</div>
+          </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="auth-alert hidden" id="signupAlert"></div>
+
+        <!-- ─── STEP 1 ─── -->
+        <div id="signupStep1">
+          <form id="signupForm1" novalidate autocomplete="off">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">👤</span>
+                  <input type="text" id="fullName" placeholder="Kashish Jain" class="form-input" required />
+                </div>
+                <span class="field-error" id="fullNameErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="signupEmail">Email Address <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">✉️</span>
+                  <input type="email" id="signupEmail" placeholder="you@example.com" class="form-input" required />
+                </div>
+                <span class="field-error" id="emailErr"></span>
+              </div>
+              <div class="form-group">
+                <label for="signupMobile">Mobile Number <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">📱</span>
+                  <input type="tel" id="signupMobile" placeholder="9876543210" class="form-input" maxlength="10" required />
+                </div>
+                <span class="field-error" id="mobileErr"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="signupPassword">Password <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔒</span>
+                  <input type="password" id="signupPassword" placeholder="Min 8 chars, 1 uppercase, 1 digit" class="form-input" required />
+                  <button type="button" class="eye-btn" onclick="togglePwd('signupPassword', this)">👁</button>
+                </div>
+                <div class="pwd-strength" id="pwdStrength" style="display:none;">
+                  <div class="pwd-bar"><div class="pwd-fill" id="pwdFill"></div></div>
+                  <span class="pwd-label" id="pwdLabel"></span>
+                </div>
+                <span class="field-error" id="signupPasswordErr"></span>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔒</span>
+                  <input type="password" id="confirmPassword" placeholder="Re-enter password" class="form-input" required />
+                  <button type="button" class="eye-btn" onclick="togglePwd('confirmPassword', this)">👁</button>
+                </div>
+                <span class="field-error" id="confirmPasswordErr"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-check">
+                <input type="checkbox" id="agreeTerms" required />
+                <span class="check-box"></span>
+                I agree to the <a href="about.html" target="_blank">Terms of Use</a> and understand this is an educational platform.
+              </label>
+              <span class="field-error" id="termsErr"></span>
+            </div>
+
+            <button type="submit" class="btn-auth" id="step1Btn">
+              Continue to Identity Verification →
+            </button>
+
+          </form>
+        </div>
+
+        <!-- ─── STEP 2 ─── -->
+        <div id="signupStep2" style="display:none;">
+          <div class="id-verify-intro">
+            <div class="id-verify-icon">🪪</div>
+            <h3>Identity Verification</h3>
+            <p>Submit your Aadhaar Card or PAN Card for account verification. This is <strong>optional</strong> but gives you a <span class="tag tag-high" style="font-size:10px;">Verified</span> badge on your profile.</p>
+            <p class="id-disclaimer">⚠ This is a <strong>demo simulation</strong>. No real government API is called. Your ID number is masked before storage and never stored in full.</p>
+          </div>
+
+          <form id="signupForm2" novalidate autocomplete="off">
+
+            <!-- ID type selector -->
+            <div class="form-group">
+              <label>Select ID Proof Type</label>
+              <div class="id-type-selector">
+                <label class="id-type-card" id="idTypeAadhaar">
+                  <input type="radio" name="idType" value="aadhaar" checked />
+                  <div class="id-type-body">
+                    <span class="id-type-icon">🪪</span>
+                    <strong>Aadhaar Card</strong>
+                    <small>12-digit number</small>
+                  </div>
+                </label>
+                <label class="id-type-card" id="idTypePan">
+                  <input type="radio" name="idType" value="pan" />
+                  <div class="id-type-body">
+                    <span class="id-type-icon">💳</span>
+                    <strong>PAN Card</strong>
+                    <small>ABCDE1234F format</small>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idNumber" id="idNumberLabel">Aadhaar Number <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-icon">🔢</span>
+                <input type="text" id="idNumber" placeholder="Enter 12-digit Aadhaar number" class="form-input" maxlength="12" />
+              </div>
+              <span class="field-hint">Your number will be masked (e.g. XXXX-XXXX-3456) before storage.</span>
+              <span class="field-error" id="idNumberErr"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="idName">Name as on ID <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" id="idName" placeholder="Full name as printed on your ID" class="form-input" />
+              </div>
+              <span class="field-error" id="idNameErr"></span>
+            </div>
+
+            <div class="signup-step2-actions">
+              <button type="button" class="btn-secondary" onclick="skipIDVerification()">
+                Skip for now
+              </button>
+              <button type="submit" class="btn-auth" id="step2Btn">
+                <span id="step2BtnText">Submit &amp; Create Account</span>
+                <span class="btn-spinner hidden" id="step2Spinner">⏳</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="auth-switch" style="margin-top:20px;">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (CV_Auth.getToken()) {
+      CV_Auth.checkSession().then(ok => { if (ok) window.location.href = 'dashboard.html'; });
+    }
+
+    /* ── Step 1 ── */
+    document.getElementById('signupForm1').addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const email    = document.getElementById('signupEmail').value.trim();
+      const mobile   = document.getElementById('signupMobile').value.trim();
+      const pwd      = document.getElementById('signupPassword').value;
+      const confirm  = document.getElementById('confirmPassword').value;
+      const terms    = document.getElementById('agreeTerms').checked;
+      let valid = true;
+
+      if (fullName.length < 2) { showFErr('fullNameErr', 'Full name must be at least 2 characters.'); valid = false; }
+      if (!validateEmail(email)) { showFErr('emailErr', 'Enter a valid email address.'); valid = false; }
+      if (!/^[6-9]\d{9}$/.test(mobile)) { showFErr('mobileErr', 'Enter a valid 10-digit Indian mobile number.'); valid = false; }
+      if (pwd.length < 8)     { showFErr('signupPasswordErr', 'Minimum 8 characters.'); valid = false; }
+      else if (!/[A-Z]/.test(pwd)) { showFErr('signupPasswordErr', 'Must contain at least one uppercase letter.'); valid = false; }
+      else if (!/\d/.test(pwd))    { showFErr('signupPasswordErr', 'Must contain at least one digit.'); valid = false; }
+      if (pwd !== confirm)    { showFErr('confirmPasswordErr', 'Passwords do not match.'); valid = false; }
+      if (!terms)             { showFErr('termsErr', 'You must agree to the terms.'); valid = false; }
+
+      if (!valid) return;
+
+      // Save step1 data and show step2
+      window._regData = { fullName, email, mobile, password: pwd, confirm };
+      showStep(2);
+    });
+
+    /* ── Password strength meter ── */
+    document.getElementById('signupPassword').addEventListener('input', function() {
+      const v = this.value;
+      const meter = document.getElementById('pwdStrength');
+      const fill  = document.getElementById('pwdFill');
+      const label = document.getElementById('pwdLabel');
+      if (!v) { meter.style.display = 'none'; return; }
+      meter.style.display = 'flex';
+
+      let score = 0;
+      if (v.length >= 8)          score++;
+      if (v.length >= 12)         score++;
+      if (/[A-Z]/.test(v))        score++;
+      if (/\d/.test(v))           score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+
+      const levels = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+      const colors = ['', '#ff4757', '#ffa502', '#ffd32a', '#00d4ff', '#00ff88'];
+      const pct    = [0, 20, 40, 60, 80, 100];
+      fill.style.width      = pct[score] + '%';
+      fill.style.background = colors[score];
+      label.textContent     = levels[score];
+      label.style.color     = colors[score];
+    });
+
+    /* ── ID type toggle ── */
+    document.querySelectorAll('input[name="idType"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const isAadhaar = r.value === 'aadhaar';
+        document.getElementById('idNumberLabel').innerHTML =
+          (isAadhaar ? 'Aadhaar Number' : 'PAN Number') + ' <span class="req">*</span>';
+        document.getElementById('idNumber').placeholder =
+          isAadhaar ? 'Enter 12-digit Aadhaar number' : 'e.g. ABCDE1234F';
+        document.getElementById('idNumber').maxLength = isAadhaar ? 12 : 10;
+        document.getElementById('idNumber').value = '';
+        // Highlight selected card
+        document.getElementById('idTypeAadhaar').classList.toggle('selected', isAadhaar);
+        document.getElementById('idTypePan').classList.toggle('selected', !isAadhaar);
+      });
+    });
+    document.getElementById('idTypeAadhaar').classList.add('selected');
+
+    /* ── Step 2 — submit with ID ── */
+    document.getElementById('signupForm2').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const idType   = document.querySelector('input[name="idType"]:checked').value;
+      const idNumber = document.getElementById('idNumber').value.trim();
+      const idName   = document.getElementById('idName').value.trim();
+      let valid = true;
+
+      if (idType === 'aadhaar' && !/^\d{12}$/.test(idNumber)) {
+        showFErr('idNumberErr', 'Aadhaar must be exactly 12 digits.'); valid = false;
+      }
+      if (idType === 'pan' && !/^[A-Za-z]{5}[0-9]{4}[A-Za-z]$/.test(idNumber)) {
+        showFErr('idNumberErr', 'PAN must be in format ABCDE1234F.'); valid = false;
+      }
+      if (idName.length < 2) { showFErr('idNameErr', 'Name on ID is required.'); valid = false; }
+      if (!valid) return;
+
+      await registerAndSubmitID(idType, idNumber.toUpperCase(), idName);
+    });
+
+    async function skipIDVerification() {
+      clearErrors();
+      setStep2Loading(true);
+      const d = window._regData;
+      const res = await CV_Auth.register(d.fullName, d.email, d.mobile, d.password, d.confirm);
+      setStep2Loading(false);
+      if (res.success) {
+        showAlert('✓ Account created! Redirecting to dashboard…', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 900);
+      } else {
+        showAlert(res.error || 'Registration failed.', 'error');
+      }
+    }
+
+    async function registerAndSubmitID(idType, idNumber, idName) {
+      setStep2Loading(true);
+      const d = window._regData;
+
+      // 1. Register
+      const regRes = await CV_Auth.register(d.fullName, d.email, d.mobile, d.password, d.confirm);
+      if (!regRes.success) {
+        setStep2Loading(false);
+        showAlert(regRes.error || 'Registration failed.', 'error');
+        return;
+      }
+
+      // 2. Submit ID
+      const idRes = await CV_Auth.submitID(idType, idNumber, idName);
+      setStep2Loading(false);
+
+      if (idRes.success) {
+        showAlert('✓ Account created and ID verified! Redirecting…', 'success');
+      } else {
+        showAlert('Account created but ID submission failed: ' + (idRes.error || ''), 'warning');
+      }
+      setTimeout(() => window.location.href = 'dashboard.html', 1000);
+    }
+
+    function showStep(n) {
+      document.getElementById('signupStep1').style.display = n === 1 ? 'block' : 'none';
+      document.getElementById('signupStep2').style.display = n === 2 ? 'block' : 'none';
+      document.getElementById('step1ind').classList.toggle('active', n === 1);
+      document.getElementById('step1ind').classList.toggle('done', n === 2);
+      document.getElementById('step2ind').classList.toggle('active', n === 2);
+    }
+
+    function setStep2Loading(on) {
+      document.getElementById('step2Btn').disabled = on;
+      document.getElementById('step2BtnText').classList.toggle('hidden', on);
+      document.getElementById('step2Spinner').classList.toggle('hidden', !on);
+    }
+
+    function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+    function togglePwd(id, btn) {
+      const f = document.getElementById(id);
+      f.type = f.type === 'password' ? 'text' : 'password';
+      btn.textContent = f.type === 'password' ? '👁' : '🙈';
+    }
+    function showFErr(id, msg) { document.getElementById(id).textContent = msg; }
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+      document.getElementById('signupAlert').className = 'auth-alert hidden';
+    }
+    function showAlert(msg, type = 'error') {
+      const el = document.getElementById('signupAlert');
+      el.textContent = msg;
+      el.className = `auth-alert auth-alert-${type}`;
+    }
+
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

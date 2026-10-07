@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CryptoVault</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="dash-body">
+
+  <!-- TOP NAV -->
+  <nav class="navbar dash-navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-title">Crypto<span class="accent">Vault</span></span>
+    </a>
+    <div class="dash-nav-right">
+      <a href="index.html" class="dash-nav-link">🔒 Encrypt</a>
+      <a href="compare.html" class="dash-nav-link">📊 Compare</a>
+      <div class="dash-user-pill" id="dashUserPill">
+        <div class="dup-avatar" id="dupAvatar">??</div>
+        <span class="dup-name" id="dupName">Loading…</span>
+        <div class="dup-menu" id="dupMenu">
+          <a href="profile.html">👤 Profile</a>
+          <a href="dashboard.html">🏠 Dashboard</a>
+          <a href="index.html">🔒 Encrypt</a>
+          <hr class="dup-sep" />
+          <a href="#" onclick="doLogout(event)">🚪 Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LAYOUT: sidebar + main -->
+  <div class="dash-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar" id="sidebarAvatar">??</div>
+        <div class="sidebar-name" id="sidebarName">Loading…</div>
+        <div class="sidebar-email" id="sidebarEmail">—</div>
+        <div class="sidebar-badge" id="sidebarBadge"></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link active">
+          <span class="sl-icon">🏠</span> Dashboard
+        </a>
+        <a href="index.html" class="sidebar-link">
+          <span class="sl-icon">🔒</span> Encrypt / Decrypt
+        </a>
+        <a href="compare.html" class="sidebar-link">
+          <span class="sl-icon">📊</span> Compare Algorithms
+        </a>
+        <a href="profile.html" class="sidebar-link">
+          <span class="sl-icon">👤</span> My Profile
+        </a>
+        <a href="about.html" class="sidebar-link">
+          <span class="sl-icon">ℹ️</span> About
+        </a>
+        <div class="sidebar-sep"></div>
+        <a href="#" onclick="doLogout(event)" class="sidebar-link sidebar-logout">
+          <span class="sl-icon">🚪</span> Logout
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        MDM Minor CyberSecurity<br/>Team MgmDevs
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dash-main">
+
+      <!-- Welcome Header -->
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">Welcome back, <span class="accent" id="welcomeName">…</span> 👋</h1>
+          <p class="dash-subtitle" id="dashSubtitle">Here's your CryptoVault activity overview.</p>
+        </div>
+        <a href="index.html" class="btn-primary" style="text-decoration:none; white-space:nowrap;">
+          + New Operation
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="dash-stats-row" id="dashStatsRow">
+        <div class="dash-stat-card">
+          <div class="dsc-icon">🔒</div>
+          <div class="dsc-val" id="dscTotalOps">—</div>
+          <div class="dsc-label">Total Operations</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dsc-icon">🔐</div>
+          <div class="dsc-val" id="dscEncryptions">—</div>
+          <div class="dsc-label">Encryptions</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dsc-icon">🔓</div>
+          <div class="dsc-val" id="dscDecryptions">—</div>
+          <div class="dsc-label">Decryptions</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dsc-icon">📅</div>
+          <div class="dsc-val" id="dscLastActive">—</div>
+          <div class="dsc-label">Last Active</div>
+        </div>
+      </div>
+
+      <!-- Two-column: recent history + algo breakdown -->
+      <div class="dash-content-grid">
+
+        <!-- Recent Activity -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <h2>Recent Activity</h2>
+            <div class="dash-section-actions">
+              <select id="historyFilter" class="dash-select" onchange="loadHistory()">
+                <option value="">All Algorithms</option>
+                <option value="caesar">Caesar</option>
+                <option value="rot13">ROT13</option>
+                <option value="atbash">Atbash</option>
+                <option value="vigenere">Vigenère</option>
+                <option value="base64">Base64</option>
+                <option value="aes">AES-256</option>
+                <option value="sha256">SHA-256</option>
+              </select>
+              <button class="btn-secondary" style="padding:7px 14px;font-size:13px;" onclick="loadHistory()">↻ Refresh</button>
+            </div>
+          </div>
+
+          <div id="historyList">
+            <div class="dash-loading">Loading history…</div>
+          </div>
+
+          <div class="dash-pagination" id="historyPagination" style="display:none;">
+            <button class="btn-secondary" id="prevPageBtn" onclick="changePage(-1)" style="padding:7px 16px;font-size:13px;">← Prev</button>
+            <span class="page-info" id="pageInfo">Page 1</span>
+            <button class="btn-secondary" id="nextPageBtn" onclick="changePage(1)" style="padding:7px 16px;font-size:13px;">Next →</button>
+          </div>
+        </section>
+
+        <!-- Right column -->
+        <div class="dash-right-col">
+
+          <!-- Profile card -->
+          <section class="dash-section dash-profile-card" id="profileCard">
+            <h2>My Profile</h2>
+            <div class="dpc-avatar" id="dpcAvatar">??</div>
+            <div class="dpc-name"  id="dpcName">—</div>
+            <div class="dpc-email" id="dpcEmail">—</div>
+            <div class="dpc-meta">
+              <div class="dpc-row"><span>Mobile</span><span id="dpcMobile">—</span></div>
+              <div class="dpc-row"><span>Member since</span><span id="dpcSince">—</span></div>
+              <div class="dpc-row"><span>Last login</span><span id="dpcLastLogin">—</span></div>
+              <div class="dpc-row"><span>Verification</span><span id="dpcVerif">—</span></div>
+            </div>
+            <a href="profile.html" class="btn-secondary" style="display:block;text-align:center;text-decoration:none;margin-top:14px;padding:9px;">Edit Profile</a>
+          </section>
+
+          <!-- Algorithm breakdown -->
+          <section class="dash-section">
+            <h2>Algorithm Usage</h2>
+            <div id="algoBreakdown">
+              <div class="dash-loading">Loading…</div>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+
+      <!-- Full history (load more) -->
+      <section class="dash-section" style="margin-top:0;">
+        <div class="dash-section-header">
+          <h2>Full History</h2>
+          <button class="btn-secondary" style="padding:7px 14px;font-size:13px;color:var(--red);border-color:rgba(255,71,87,0.4);"
+                  onclick="confirmClearHistory()">🗑 Clear All</button>
+        </div>
+        <div id="fullHistoryList">
+          <div class="dash-loading">Loading…</div>
+        </div>
+        <div style="text-align:center;margin-top:16px;" id="loadMoreWrap" style="display:none;">
+          <button class="btn-secondary" id="loadMoreBtn" onclick="loadMoreHistory()" style="padding:10px 28px;">Load More</button>
+        </div>
+      </section>
+
+    </main>
+
+  </div><!-- end dash-layout -->
+
+  <!-- History detail modal -->
+  <div class="modal-overlay hidden" id="historyModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Operation Detail</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    let currentUser   = null;
+    let historyPage   = 0;
+    const PAGE_SIZE   = 10;
+    let fullOffset    = 0;
+    const FULL_LIMIT  = 20;
+    let totalFull     = 0;
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+      const ok = await CV_Auth.checkSession();
+      if (!ok) { window.location.href = 'login.html'; return; }
+
+      currentUser = CV_Auth.user;
+      renderProfile();
+      loadStats();
+      loadHistory();
+      loadFullHistory(true);
+    });
+
+    /* ── Profile render ── */
+    function renderProfile() {
+      const u = currentUser;
+      const initials = u.avatar_initials || '??';
+      document.getElementById('welcomeName').textContent  = u.full_name.split(' ')[0];
+      document.getElementById('dashSubtitle').textContent =
+        `Last login: ${u.last_login ? fmtDate(u.last_login) : 'First session'} · ${u.email}`;
+      document.getElementById('dupAvatar').textContent    = initials;
+      document.getElementById('dupName').textContent      = u.full_name;
+      document.getElementById('sidebarAvatar').textContent = initials;
+      document.getElementById('sidebarName').textContent  = u.full_name;
+      document.getElementById('sidebarEmail').textContent = u.email;
+      document.getElementById('dpcAvatar').textContent    = initials;
+      document.getElementById('dpcName').textContent      = u.full_name;
+      document.getElementById('dpcEmail').textContent     = u.email;
+      document.getElementById('dpcMobile').textContent    = u.mobile;
+      document.getElementById('dpcSince').textContent     = fmtDate(u.created_at);
+      document.getElementById('dpcLastLogin').textContent = u.last_login ? fmtDate(u.last_login) : 'Now';
+
+      // Verification badge
+      const idv = u.id_verification;
+      const verifEl = document.getElementById('dpcVerif');
+      const badgeEl = document.getElementById('sidebarBadge');
+      if (idv && idv.status === 'verified') {
+        verifEl.innerHTML  = '<span class="tag tag-high">✓ Verified</span>';
+        badgeEl.innerHTML  = '<span class="tag tag-high" style="font-size:10px;">✓ Verified</span>';
+      } else if (idv && idv.status === 'pending') {
+        verifEl.innerHTML  = '<span class="tag tag-medium">⏳ Pending</span>';
+        badgeEl.innerHTML  = '<span class="tag tag-medium" style="font-size:10px;">⏳ Pending</span>';
+      } else {
+        verifEl.innerHTML  = '<a href="profile.html" style="color:var(--accent);font-size:13px;">+ Verify ID</a>';
+        badgeEl.innerHTML  = '<span class="tag tag-none" style="font-size:10px;">Unverified</span>';
+      }
+    }
+
+    /* ── Stats ── */
+    async function loadStats() {
+      const res = await CV_Auth.apiPost('php/history.php', { action: 'stats' });
+      if (!res.success) return;
+      const t = res.totals;
+      document.getElementById('dscTotalOps').textContent    = t.total_ops     || 0;
+      document.getElementById('dscEncryptions').textContent = t.encryptions    || 0;
+      document.getElementById('dscDecryptions').textContent = t.decryptions    || 0;
+      document.getElementById('dscLastActive').textContent  =
+        res.recent && res.recent.length ? fmtDateShort(res.recent[0].created_at) : 'Never';
+
+      // Algo breakdown
+      const breakEl = document.getElementById('algoBreakdown');
+      if (!res.by_algo || !res.by_algo.length) {
+        breakEl.innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding:12px 0;">No operations yet. <a href="index.html">Try encrypting something!</a></p>';
+        return;
+      }
+      const maxCount = Math.max(...res.by_algo.map(r => r.count));
+      breakEl.innerHTML = res.by_algo.map(r => `
+        <div class="algo-usage-row">
+          <div class="aur-label">${r.algo_label}</div>
+          <div class="aur-bar-wrap">
+            <div class="aur-bar" style="width:${Math.round(r.count/maxCount*100)}%"></div>
+          </div>
+          <div class="aur-count">${r.count}</div>
+        </div>
+      `).join('');
+    }
+
+    /* ── Recent history (top section, paginated) ── */
+    async function loadHistory() {
+      historyPage = 0;
+      await fetchHistoryPage();
+    }
+
+    async function fetchHistoryPage() {
+      const filter = document.getElementById('historyFilter').value;
+      const res = await CV_Auth.apiPost('php/history.php', {
+        action: 'list', limit: PAGE_SIZE, offset: historyPage * PAGE_SIZE, filter
+      });
+      const el = document.getElementById('historyList');
+      if (!res.success) { el.innerHTML = `<div class="dash-error">Failed to load history.</div>`; return; }
+      if (!res.history.length && historyPage === 0) {
+        el.innerHTML = `<div class="dash-empty">No operations yet. <a href="index.html">Start encrypting!</a></div>`;
+        document.getElementById('historyPagination').style.display = 'none';
+        return;
+      }
+      el.innerHTML = res.history.map(h => historyCard(h)).join('');
+      const total = res.total;
+      const pages = Math.ceil(total / PAGE_SIZE);
+      const pg    = document.getElementById('historyPagination');
+      pg.style.display = pages > 1 ? 'flex' : 'none';
+      document.getElementById('pageInfo').textContent = `Page ${historyPage+1} of ${pages}`;
+      document.getElementById('prevPageBtn').disabled = historyPage === 0;
+      document.getElementById('nextPageBtn').disabled = historyPage >= pages - 1;
+    }
+
+    async function changePage(dir) {
+      historyPage += dir;
+      await fetchHistoryPage();
+      document.getElementById('historyList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── Full history (bottom section, load more) ── */
+    async function loadFullHistory(reset = false) {
+      if (reset) { fullOffset = 0; totalFull = 0; document.getElementById('fullHistoryList').innerHTML = ''; }
+      const res = await CV_Auth.apiPost('php/history.php', {
+        action: 'list', limit: FULL_LIMIT, offset: fullOffset
+      });
+      if (!res.success) return;
+      totalFull = res.total;
+
+      const el = document.getElementById('fullHistoryList');
+      if (!res.history.length && fullOffset === 0) {
+        el.innerHTML = `<div class="dash-empty">No history yet.</div>`;
+        return;
+      }
+      el.innerHTML += res.history.map(h => historyCardFull(h)).join('');
+      fullOffset += res.history.length;
+
+      const lmw = document.getElementById('loadMoreWrap');
+      lmw.style.display = fullOffset < totalFull ? 'block' : 'none';
+    }
+
+    function loadMoreHistory() { loadFullHistory(false); }
+
+    /* ── History card (compact) ── */
+    function historyCard(h) {
+      const modeClass = h.mode === 'encrypt' ? 'mode-enc' : 'mode-dec';
+      const modeIcon  = h.mode === 'encrypt' ? '🔒' : '🔓';
+      return `
+        <div class="history-card" onclick="showDetail(${h.id})">
+          <div class="hc-left">
+            <div class="hc-mode ${modeClass}">${modeIcon} ${h.mode}</div>
+            <div class="hc-algo">${h.algo_label}</div>
+          </div>
+          <div class="hc-mid">
+            <div class="hc-preview">${escHtml(truncate(h.input_text, 40))}</div>
+            <div class="hc-arrow">→</div>
+            <div class="hc-preview" style="color:var(--accent)">${escHtml(truncate(h.output_text, 40))}</div>
+          </div>
+          <div class="hc-right">
+            <div class="hc-time">${fmtDate(h.created_at)}</div>
+            <div class="hc-meta">${h.input_length} → ${h.output_length} chars · ${fmtMs(h.time_ms)}</div>
+          </div>
+        </div>`;
+    }
+
+    /* ── Full history card (with delete) ── */
+    function historyCardFull(h) {
+      const modeIcon = h.mode === 'encrypt' ? '🔒' : '🔓';
+      return `
+        <div class="history-card history-card-full" id="hcf${h.id}">
+          <div class="hcf-header">
+            <span class="hcf-algo">${modeIcon} ${h.algo_label} — ${h.mode}</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="hcf-date">${fmtDate(h.created_at)}</span>
+              <button class="icon-btn" style="color:var(--red);border-color:rgba(255,71,87,0.3);"
+                onclick="deleteRecord(event,${h.id})">🗑</button>
+            </div>
+          </div>
+          <div class="hcf-body">
+            <div class="hcf-col">
+              <div class="hcf-label">Input (${h.input_length} chars)</div>
+              <div class="hcf-text">${escHtml(truncate(h.input_text, 120))}</div>
+            </div>
+            <div class="hcf-arrow">→</div>
+            <div class="hcf-col">
+              <div class="hcf-label">Output (${h.output_length} chars)</div>
+              <div class="hcf-text" style="color:var(--accent)">${escHtml(truncate(h.output_text, 120))}</div>
+            </div>
+          </div>
+          <div class="hcf-footer">
+            Time: ${fmtMs(h.time_ms)} &nbsp;·&nbsp; ${fmtDate(h.created_at)}
+          </div>
+        </div>`;
+    }
+
+    /* ── Detail modal ── */
+    async function showDetail(id) {
+      const res = await CV_Auth.apiPost('php/history.php', { action: 'list', limit: 100, offset: 0 });
+      if (!res.success) return;
+      const h = res.history.find(x => x.id == id);
+      if (!h) return;
+      document.getElementById('modalTitle').textContent = `${h.algo_label} — ${h.mode}`;
+      document.getElementById('modalBody').innerHTML = `
+        <table class="modal-table">
+          <tr><th>Algorithm</th><td>${h.algo_label}</td></tr>
+          <tr><th>Mode</th><td>${h.mode === 'encrypt' ? '🔒 Encrypt' : '🔓 Decrypt'}</td></tr>
+          <tr><th>Date & Time</th><td>${fmtDate(h.created_at)}</td></tr>
+          <tr><th>Input Length</th><td>${h.input_length} characters</td></tr>
+          <tr><th>Output Length</th><td>${h.output_length} characters</td></tr>
+          <tr><th>Time Taken</th><td>${fmtMs(h.time_ms)}</td></tr>
+        </table>
+        <div class="modal-io-row">
+          <div class="modal-io-col">
+            <div class="modal-io-label">Input Text</div>
+            <div class="modal-io-text">${escHtml(h.input_text)}</div>
+          </div>
+          <div class="modal-io-col">
+            <div class="modal-io-label">Output Text</div>
+            <div class="modal-io-text" style="color:var(--accent)">${escHtml(h.output_text)}</div>
+          </div>
+        </div>`;
+      document.getElementById('historyModal').classList.remove('hidden');
+    }
+
+    function closeModal() { document.getElementById('historyModal').classList.add('hidden'); }
+    document.getElementById('historyModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    /* ── Delete ── */
+    async function deleteRecord(e, id) {
+      e.stopPropagation();
+      if (!confirm('Delete this history record?')) return;
+      const res = await CV_Auth.apiPost('php/history.php', { action: 'delete', id });
+      if (res.success) {
+        document.getElementById('hcf' + id)?.remove();
+        loadStats();
+        loadHistory();
+      }
+    }
+
+    async function confirmClearHistory() {
+      if (!confirm('Clear ALL your history? This cannot be undone.')) return;
+      const res = await CV_Auth.apiPost('php/history.php', { action: 'clear_all' });
+      if (res.success) { loadStats(); loadHistory(); loadFullHistory(true); }
+    }
+
+    /* ── Logout ── */
+    async function doLogout(e) {
+      if (e) e.preventDefault();
+      await CV_Auth.logout();
+      window.location.href = 'login.html';
+    }
+
+    // Dropdown toggle
+    document.getElementById('dashUserPill').addEventListener('click', (e) => {
+      document.getElementById('dupMenu').classList.toggle('open');
+      e.stopPropagation();
+    });
+    document.addEventListener('click', () => document.getElementById('dupMenu').classList.remove('open'));
+
+    /* ── Helpers ── */
+    function fmtDate(s) {
+      if (!s) return '—';
+      const d = new Date(s.replace(' ', 'T') + 'Z');
+      return d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+    function fmtDateShort(s) {
+      if (!s) return '—';
+      const d = new Date(s.replace(' ', 'T') + 'Z');
+      return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short' });
+    }
+    function fmtMs(ms) { return ms < 1 ? '<1ms' : parseFloat(ms).toFixed(2) + 'ms'; }
+    function truncate(s, n) { return s && s.length > n ? s.slice(0, n) + '…' : (s || ''); }
+    function escHtml(s) {
+      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
